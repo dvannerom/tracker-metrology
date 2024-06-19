@@ -55,7 +55,6 @@ def linesIntersection(A, B, C, D):
 	
 	det = a1*b2 - a2*b1
 	det_err = math.sqrt((a1*b2*math.sqrt((a1_err/a1)**2 + (b2_err/b2)**2))**2 + (a2*b1*math.sqrt((a2_err/a2)**2 + (b1_err/b1)**2))**2)
-	print(det,det_err)
 	
 	if (det == 0):
 	    # The lines are parallel. This is simplified
@@ -125,8 +124,6 @@ if __name__ == '__main__':
 	res2 = stats.linregress(x_reg2, y_reg2)
 
 	# Draw the two lines on the original image
-	#line1 = cv2.line(outimg,(0, int(res1.intercept)),(img.shape[0], int(res1.intercept+res1.slope*img.shape[0])),(0,0,255),3)
-	#line2 = cv2.line(outimg,(0, int(res2.intercept)),(img.shape[0], int(res2.intercept+res2.slope*img.shape[0])),(0,0,255),3)
 	line1 = cv2.line(outimg,(1, int(res1.intercept+res1.slope)),(img.shape[0], int(res1.intercept+res1.slope*img.shape[0])),(0,0,255),3)
 	line2 = cv2.line(outimg,(1, int(res2.intercept+res1.slope)),(img.shape[0], int(res2.intercept+res2.slope*img.shape[0])),(0,0,255),3)
 
@@ -139,7 +136,8 @@ if __name__ == '__main__':
 	xl_err = linesIntersection(A, B, C, D).xerr
 	yl = int(linesIntersection(A, B, C, D).y)
 	yl_err = linesIntersection(A, B, C, D).yerr
-	print(xl,xl_err,yl,yl_err)
+	print("Intersection is at: ("+str(xl)+","+str(yl)+") pixels")
+	print("Uncertainties from the regression: ("+str(xl_err)+","+str(yl_err)+") pixels")
 	cv2.circle(outimg, (xl, yl), 2, (0, 0, 255), 20)
 	cv2.putText(outimg, '('+str(int(xl))+','+str(int(yl))+')', (xl+100, yl+100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
 
